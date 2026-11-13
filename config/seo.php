@@ -10,6 +10,18 @@ return [
     | Real production copy replaces these once the imp-tech.ru content is wired in.
     */
 
+    /*
+    |--------------------------------------------------------------------------
+    | Search engine indexing
+    |--------------------------------------------------------------------------
+    | Master switch for search engines. While the site is being filled with
+    | content it should stay off: robots.txt disables crawling and every page
+    | gets a "noindex, nofollow" meta tag. Set SEO_INDEXABLE=true (and run
+    | `php artisan config:clear`) when the site is ready to be indexed.
+    */
+
+    'indexable' => env('SEO_INDEXABLE', false),
+
     'defaults' => [
         'ru' => [
             'title' => 'НПП «Импульсные технологии» — высоковольтные импульсные модуляторы',

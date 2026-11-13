@@ -14,6 +14,15 @@ class RobotsController extends Controller
 {
     public function index()
     {
+        // While the site is under construction (config/seo.php "indexable"
+        // is false) disallow every crawler and do not advertise the sitemaps.
+        if (! config('seo.indexable', false)) {
+            return Response::make("User-agent: *\nDisallow: /\n", 200, [
+                'Content-Type' => 'text/plain; charset=utf-8',
+                'X-Robots-Tag' => 'noindex, nofollow',
+            ]);
+        }
+
         $default = config('locale.default', 'ru');
         $domains = config('locale.domains', []);
         $scheme = config('locale.scheme', 'https');

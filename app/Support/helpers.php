@@ -45,6 +45,23 @@ if (! function_exists('locale_path')) {
         $needsPrefix = !$hostMatchesDomain && $locale !== $default;
 
         if (!$needsPrefix) {
+            // Host-based mode: stored links may still carry a legacy locale
+            // prefix (e.g. "/en/contacts" from old seed data). Each locale
+            // lives on its own domain, so strip that prefix.
+            if ($hostMatchesDomain && !$isAbsolute) {
+                foreach (array_keys(config('locale.available')) as $availableLocale) {
+                    if ($availableLocale === $default) {
+                        continue;
+                    }
+
+                    if (preg_match('#^/'.preg_quote($availableLocale, '#').'(?=/|$)#', $path)) {
+                        $stripped = substr($path, strlen($availableLocale) + 1);
+
+                        return $stripped === '' ? '/' : $stripped;
+                    }
+                }
+            }
+
             return $path;
         }
 

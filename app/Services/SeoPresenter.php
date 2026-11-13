@@ -133,6 +133,12 @@ class SeoPresenter
 
     public function robots(): string
     {
+        // Global switch: hide the whole site from search engines while it is
+        // still being filled with content (see config/seo.php "indexable").
+        if (! config('seo.indexable', false)) {
+            return 'noindex, nofollow';
+        }
+
         $parts = [];
 
         if ($this->noindex()) {
