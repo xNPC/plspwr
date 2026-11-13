@@ -199,7 +199,16 @@ class HomePageSeeder extends Seeder
         ];
 
         foreach ($blocks as $data) {
-            $page->blocks()->create($this->withBlockImage($data, $images));
+            $image = $images[$data['type']] ?? null;
+            if ($image) {
+                foreach (['ru', 'en'] as $locale) {
+                    if (isset($data['content'][$locale]) && is_array($data['content'][$locale])) {
+                        $data['content'][$locale]['image'] = $image;
+                    }
+                }
+            }
+
+            $page->blocks()->create($data);
         }
     }
 }
