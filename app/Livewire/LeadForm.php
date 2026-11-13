@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Livewire;
 
 use App\Models\Lead;
+use App\Services\LeadNotifier;
 use Livewire\Component;
 
 class LeadForm extends Component
@@ -38,11 +39,11 @@ class LeadForm extends Component
         ];
     }
 
-    public function submit(): void
+    public function submit(LeadNotifier $notifier): void
     {
         $data = $this->validate();
 
-        Lead::create([
+        $lead = Lead::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
@@ -51,6 +52,9 @@ class LeadForm extends Component
             'message' => $data['message'],
             'page_url' => url()->current(),
         ]);
+
+        // Письмо не должно ломать форму: ошибки SMTP логируются внутри.
+        $notifier->send($lead);
 
         $this->reset([
             'name', 'email', 'phone', 'company', 'subject', 'message', 'consent',

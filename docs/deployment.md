@@ -35,7 +35,7 @@
    - `SESSION_DRIVER=database`, `SESSION_LIFETIME=120`, `SESSION_SECURE_COOKIE=true` (на HTTPS)
    - `CACHE_STORE=database`, `QUEUE_CONNECTION=database`
    - `FILESYSTEM_DISK=local` (дефолт); публичные загрузки/attachments — диск `public`
-   - `MAIL_MAILER/MAIL_HOST/MAIL_PORT/MAIL_USERNAME/MAIL_PASSWORD/MAIL_FROM_*` — боевой SMTP (сейчас по умолчанию лог, письма не уходят)
+   - `MAIL_MAILER/MAIL_HOST/MAIL_PORT/MAIL_USERNAME/MAIL_PASSWORD/MAIL_SCHEME/MAIL_FROM_*` — боевой SMTP. Пока он не настроен (`MAIL_MAILER=log`), уведомления о заявках пишутся в `storage/logs/laravel.log`. Получатели задаются в админке: **Настройки → «Получатели заявок»** (несколько адресов — через запятую или по одному в строке; если пусто — берётся контактный e-mail сайта).
    - `LOG_CHANNEL=stack`, `LOG_LEVEL=warning` (или `error`)
 3. **Зависимости и билд**:
    - `composer install --no-dev --optimize-autoloader`
@@ -83,7 +83,7 @@
 - **Индексация поисковиками**: управляется переменной `SEO_INDEXABLE` (`.env`), по умолчанию **выключена** (`config/seo.php` → `indexable = false`): `robots.txt` отдаёт `Disallow: /`, все страницы — `noindex, nofollow`. После наполнения контентом поставьте `SEO_INDEXABLE=true` и выполните `php artisan config:clear && php artisan config:cache`.
 - **Загрузки в репозитории**: `storage/app/public/img`, `import` и папка `2026` с используемыми на страницах файлами закоммичены (см. `storage/app/public/.gitignore`). Новые загрузки из админки в `2026/...` тоже станут видимы git — коммитьте их, если файл используется в контенте, иначе они останутся только на сервере.
 
-- **Почта/заявки**: форма (`app/Livewire/LeadForm.php`) сохраняет лид в БД, но почтовые уведомления не отправляет — нужен настроенный SMTP в `.env` (и при необходимости доработка отправки уведомления).
+- **Почта/заявки**: форма (`app/Livewire/LeadForm.php`) сохраняет лид в БД и сразу отправляет уведомление (`App\Mail\NewLeadMail` через `App\Services\LeadNotifier`) на адреса из админки (Настройки → «Получатели заявок»; пусто — контактный e-mail). Ошибки SMTP логируются и не ломают форму. Пока не настроен `MAIL_MAILER=smtp` с боевыми `MAIL_*`, письма уходят в лог. Смена получателей в админке не требует правки `.env`/кэша.
 - **SEO на реальных доменах**: sitemap/robots/hreflang формируются с учётом `locale.domains` — после выкладки проверить корректность абсолютных URL, canonical/og на боевых доменах.
 - **Сессии/кэш/очередь** в БД — требуют выполненных миграций; отдельный queue worker сейчас не критичен, но понадобится при появлении фоновых задач.
 - **Реальный контент/логотип/фото** наполняются на хостинге через админку (это штатный сценарий). Перед каждым обновлением — бэкап БД и `storage/app/public`.

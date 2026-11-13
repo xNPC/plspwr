@@ -6,9 +6,9 @@ namespace App\Orchid\Screens\Setting;
 
 use App\Models\Setting;
 use App\Orchid\Layouts\Setting\SettingEditLayout;
+use App\Services\LeadNotifier;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Orchid\Screen\Action;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
@@ -31,6 +31,9 @@ class SettingsScreen extends Screen
                     'address_en' => Setting::get('contacts.address_en', ''),
                     'work_hours_ru' => Setting::get('contacts.work_hours_ru', ''),
                     'work_hours_en' => Setting::get('contacts.work_hours_en', ''),
+                ],
+                'leads' => [
+                    'notify_emails' => Setting::get('leads.notify_emails', ''),
                 ],
             ],
         ];
@@ -77,8 +80,31 @@ class SettingsScreen extends Screen
             }
         }
 
+        $this->normalizeNotifyEmails((string) $request->input('settings.leads.notify_emails', ''));
+
         Toast::info(__('Settings were saved.'));
 
         return redirect()->route('platform.content.settings');
+    }
+
+    /**
+     * Сохранить список получателей заявок в нормализованном виде
+     * и предупредить о некорректных адресах.
+     */
+    private function normalizeNotifyEmails(string $raw): void
+    {
+        $valid = LeadNotifier::parseEmails($raw);
+
+        Setting::set('leads.notify_emails', implode(', ', $valid));
+
+        $parts = preg_split('/[\s,;]+/', $raw, -1, PREG_SPLIT_NO_EMPTY) ?: [];
+        $invalid = array_values(array_filter(
+            $parts,
+            static fn (string $part) => ! filter_var(trim($part), FILTER_VALIDATE_EMAIL)
+        ));
+
+        if ($invalid !== []) {
+            Toast::warning('Некорректные адреса пропущены: '.implode(', ', $invalid));
+        }
     }
 }
