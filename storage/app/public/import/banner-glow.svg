@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="800" viewBox="0 0 1920 800" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Decorative banner">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#07070f"/>
+      <stop offset="0.6" stop-color="#0c0c22"/>
+      <stop offset="1" stop-color="#191940"/>
+    </linearGradient>
+    <radialGradient id="orbA" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.40"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orbB" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#a855f7" stop-opacity="0.36"/>
+      <stop offset="1" stop-color="#a855f7" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="line" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#22d3ee" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#a855f7" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1920" height="800" fill="url(#bg)"/>
+  <ellipse cx="380" cy="180" rx="620" ry="440" fill="url(#orbA)"/>
+  <ellipse cx="1600" cy="660" rx="700" ry="480" fill="url(#orbB)"/>
+
+  <g fill="none" stroke="url(#line)" stroke-width="1.5">
+    <path d="M-100 720C300 620 520 260 900 300s520 340 1120 120"/>
+    <path d="M-100 800C340 700 560 360 940 400s520 320 1120 100" opacity="0.6"/>
+    <path d="M-100 640C260 540 480 180 860 220s520 340 1120 120" opacity="0.4"/>
+  </g>
+
+  <g fill="none" stroke="#a855f7" stroke-width="3" opacity="0.35">
+    <circle cx="1600" cy="660" r="140"/>
+    <circle cx="1600" cy="660" r="230"/>
+  </g>
+
+  <g fill="#22d3ee" opacity="0.45">
+    <circle cx="380" cy="180" r="3"/>
+    <circle cx="900" cy="300" r="3"/>
+  </g>
+  <rect width="1920" height="800" fill="none" stroke="#a855f7" stroke-width="2" opacity="0.10"/>
+</svg>

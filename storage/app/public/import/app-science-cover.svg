@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0a0a1a"/><stop offset="1" stop-color="#141435"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/><stop offset="1" stop-color="#a855f7"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <rect x="0" y="0" width="800" height="500" fill="none" stroke="url(#glow)" stroke-width="2" opacity="0.4"/>
+  <text x="400" y="240" font-family="sans-serif" font-size="38" fill="#e2e8f0" text-anchor="middle" font-weight="bold">Наука</text>
+  <text x="400" y="290" font-family="sans-serif" font-size="20" fill="#94a3b8" text-anchor="middle">Pulsed power for research</text>
+</svg>

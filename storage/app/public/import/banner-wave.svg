@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="800" viewBox="0 0 1920 800" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Decorative banner">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a0a1a"/>
+      <stop offset="0.7" stop-color="#0b0b20"/>
+      <stop offset="1" stop-color="#151537"/>
+    </linearGradient>
+    <linearGradient id="wave" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.05"/>
+      <stop offset="0.45" stop-color="#22d3ee" stop-opacity="0.9"/>
+      <stop offset="0.75" stop-color="#a855f7" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#a855f7" stop-opacity="0.05"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur" x="-20%" y="-200%" width="140%" height="500%">
+      <feGaussianBlur stdDeviation="18"/>
+    </filter>
+  </defs>
+
+  <rect width="1920" height="800" fill="url(#bg)"/>
+  <ellipse cx="960" cy="520" rx="820" ry="300" fill="url(#glow)"/>
+
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round" transform="translate(0 0)">
+    <path d="M0 560h300l40-160 60 320 70-420 70 520 60-260h210l40-160 60 320 70-420 70 520 60-260h230l40-160 60 320 70-420 70 520 60-260h300"
+          stroke="url(#wave)" stroke-width="6" filter="url(#blur)" opacity="0.55"/>
+    <path d="M0 560h300l40-160 60 320 70-420 70 520 60-260h210l40-160 60 320 70-420 70 520 60-260h230l40-160 60 320 70-420 70 520 60-260h300"
+          stroke="url(#wave)" stroke-width="2.5" opacity="0.95"/>
+  </g>
+
+  <g fill="#22d3ee" opacity="0.5">
+    <circle cx="480" cy="300" r="3"/>
+    <circle cx="1440" cy="300" r="3"/>
+  </g>
+  <rect width="1920" height="800" fill="none" stroke="#22d3ee" stroke-width="2" opacity="0.12"/>
+</svg>
