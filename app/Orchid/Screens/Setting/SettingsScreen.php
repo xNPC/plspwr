@@ -31,6 +31,9 @@ class SettingsScreen extends Screen
                     'address_en' => Setting::get('contacts.address_en', ''),
                     'work_hours_ru' => Setting::get('contacts.work_hours_ru', ''),
                     'work_hours_en' => Setting::get('contacts.work_hours_en', ''),
+                    'telegram' => Setting::get('contacts.telegram', ''),
+                    'whatsapp' => Setting::get('contacts.whatsapp', ''),
+                    'max' => Setting::get('contacts.max', ''),
                 ],
                 'leads' => [
                     'notify_emails' => Setting::get('leads.notify_emails', ''),

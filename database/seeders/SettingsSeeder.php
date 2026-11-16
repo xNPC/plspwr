@@ -21,6 +21,10 @@ class SettingsSeeder extends Seeder
             ['group' => 'contacts', 'key' => 'address_en', 'value' => '3 Razvitiya Ave., office 118, Tomsk, Russia'],
             ['group' => 'contacts', 'key' => 'work_hours_ru', 'value' => 'пн-пт: с 08:30 до 17:30'],
             ['group' => 'contacts', 'key' => 'work_hours_en', 'value' => 'Mon–Fri: 08:30 – 17:30'],
+            // Ссылки на мессенджеры (заполняются в админке; пусто — не показываются на сайте).
+            ['group' => 'contacts', 'key' => 'telegram', 'value' => ''],
+            ['group' => 'contacts', 'key' => 'whatsapp', 'value' => ''],
+            ['group' => 'contacts', 'key' => 'max', 'value' => ''],
             // Получатели уведомлений о заявках (несколько адресов — через запятую).
             ['group' => 'leads', 'key' => 'notify_emails', 'value' => 'info@plspwr.ru'],
         ];
