@@ -8,6 +8,10 @@
     $linkUrl = $content['link_url'] ?? '';
     $link2Label = $content['link2_label'] ?? '';
     $link2Url = $content['link2_url'] ?? '';
+
+    // The Technology page opens with this intro block: show the 3D model there
+    // instead of the static placeholder, without affecting other pages.
+    $showModel = request()->routeIs('page.show') && request()->route('slug') === 'technology';
 @endphp
 
 <section id="intro" class="relative py-24 overflow-hidden">
@@ -45,7 +49,9 @@
             </div>
 
             <div class="order-1 lg:order-2 relative" data-reveal>
-                @if ($imageUrl)
+                @if ($showModel)
+                    @include('blocks.partials.technology-model', ['title' => $title, 'poster' => $imageUrl])
+                @elseif ($imageUrl)
                     <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-accent-500/10">
                         <img src="{{ $imageUrl }}" alt="{{ $title }}" class="w-full h-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-ink-950/40 to-transparent"></div>
