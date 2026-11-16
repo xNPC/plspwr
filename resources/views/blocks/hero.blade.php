@@ -23,9 +23,10 @@
     {{-- Independent pulse waveform animation (resources/js/pulse.js) --}}
     <canvas id="pulse" class="absolute inset-0 z-[2] h-full w-full" aria-hidden="true" style="pointer-events:none"></canvas>
 
-    {{-- Hero logo (below the fixed header, slides up into the menu on scroll) --}}
+    {{-- Hero logo (below the fixed header, slides up into the menu on scroll).
+         Hidden below lg — on mobile the logo sits in the header right away. --}}
     @if ($siteSettings->image('brand.logo'))
-        <div class="relative z-[5] pt-3">
+        <div class="relative z-[5] pt-3 hidden lg:block">
             <a href="{{ localized_route('home') }}" id="hero-logo"
                class="block transition-all duration-500 will-change-transform motion-reduce:transition-none"
                aria-label="{{ config('app.name') }}">
@@ -39,7 +40,7 @@
 
     <div class="relative z-10 flex-1 flex flex-col items-center justify-center mx-auto max-w-5xl w-full px-4 sm:px-6 lg:px-8 text-center pt-4 pb-20">
         @if ($badge)
-            <div class="inline-flex items-center gap-2 rounded-full border border-accent-500/30 bg-accent-500/5 px-5 py-2 text-lg font-medium uppercase tracking-widest text-accent-300 mb-8" data-reveal>
+            <div class="inline-flex items-center gap-2 rounded-full border border-accent-500/30 bg-accent-500/5 px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-accent-300 mb-6 sm:px-4 sm:text-sm sm:tracking-widest sm:mb-7 lg:px-5 lg:py-2 lg:text-lg lg:tracking-widest lg:mb-8" data-reveal>
                 <span class="relative flex h-2 w-2">
                     <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-400 opacity-75"></span>
                     <span class="relative inline-flex rounded-full h-2 w-2 bg-accent-400"></span>
@@ -76,12 +77,4 @@
             @endif
         </div>
     </div>
-
-    {{-- Scroll indicator --}}
-    <a href="#intro" class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 text-slate-400 hover:text-white transition-colors" aria-label="{{ __('Scroll down') }}">
-        <span class="text-xs uppercase tracking-widest">Scroll</span>
-        <span class="flex h-9 w-5 items-start justify-center rounded-full border border-white/20 p-1">
-            <span class="h-2 w-1 rounded-full bg-accent-400 animate-scroll-down"></span>
-        </span>
-    </a>
 </section>

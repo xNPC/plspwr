@@ -16,7 +16,7 @@ export function initHeader() {
                 heroLogo.classList.add('opacity-0', '-translate-y-6', 'pointer-events-none');
             }
             if (headerLogo && heroLogo) {
-                headerLogo.classList.remove('opacity-0', 'invisible');
+                headerLogo.classList.remove('lg:opacity-0', 'lg:invisible');
             }
         } else {
             header.classList.remove('glass', 'backdrop-blur-md', 'shadow-lg', 'shadow-ink-950/40');
@@ -25,7 +25,7 @@ export function initHeader() {
                 heroLogo.classList.remove('opacity-0', '-translate-y-6', 'pointer-events-none');
             }
             if (headerLogo && heroLogo) {
-                headerLogo.classList.add('opacity-0', 'invisible');
+                headerLogo.classList.add('lg:opacity-0', 'lg:invisible');
             }
         }
     };

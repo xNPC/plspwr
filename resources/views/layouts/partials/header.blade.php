@@ -5,8 +5,9 @@
 
 @php
     $currentPath = '/' . trim(request()->path(), '/');
-    // On the home page a large hero logo is shown below the menu, so the
-    // small header logo starts hidden (and JS reveals it after scrolling).
+    // On the home page a large hero logo is shown below the menu (desktop only),
+    // so the small header logo starts hidden on lg+ and JS reveals it on scroll.
+    // Below lg the hero logo is not rendered, so the header logo is always shown.
     $hideMenuLogo = request()->route()?->named('home') && $siteSettings->image('brand.logo');
 @endphp
 
@@ -15,7 +16,7 @@
         <div class="flex h-[var(--header-height)] items-center justify-between gap-6">
             {{-- Logo --}}
             <a href="{{ localized_route('home') }}" id="header-logo"
-               class="flex items-center gap-3 group shrink-0 transition-opacity duration-500 motion-reduce:transition-none {{ $hideMenuLogo ? 'opacity-0 invisible' : 'opacity-100' }}">
+               class="flex items-center gap-3 group shrink-0 transition-opacity duration-500 motion-reduce:transition-none {{ $hideMenuLogo ? 'opacity-100 lg:opacity-0 lg:invisible' : 'opacity-100' }}">
                 @if ($siteSettings->image('brand.logo'))
                     <img src="{{ $siteSettings->image('brand.logo') }}" alt="{{ config('app.name') }}"
                          class="h-12 w-auto">

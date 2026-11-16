@@ -1,8 +1,15 @@
 ﻿const COLOR = '#19e0ff';
-const BASELINE = 110;
-const BASELINE_COMPACT = 102;
+// Distance from the bottom edge to the waveform baseline. The "Scroll" hint is
+// gone, so the pulse can sit closer to the bottom of the hero.
+const BASELINE = 48;
+const BASELINE_COMPACT = 40;
+// Wave height. Shrinks automatically when the hero is short.
 const AMPLITUDE = -64;
 const AMPLITUDE_COMPACT = -40;
+// Air between the CTA row and the top of the wave.
+const AIR = 24;
+const AIR_COMPACT = 16;
+const MIN_AMPLITUDE = 14;
 const COMPACT_WIDTH = 640;
 const PULSES = 4;
 const SPEED = 2.4;
@@ -57,15 +64,33 @@ export function initPulse() {
 
         if (width <= 0) return;
 
-        // The baseline sits a fixed gap below the CTA row, so the pulse keeps the
-        // same distance to the buttons in every browser. It is clamped above the
-        // "Scroll" hint; on compact screens the pulse is shorter.
+        // The wave stays at the bottom of the hero (like the original design) and
+        // only flattens when the CTA row comes close to it, so it never runs
+        // through the buttons. Because the hero height is stable (svh), Chrome
+        // and Yandex now show the same picture.
         const compact = width < COMPACT_WIDTH;
         const clearance = compact ? BASELINE_COMPACT : BASELINE;
-        const limit = height - clearance;
-        const gap = compact ? 8 : 12;
-        const baseY = anchorBottom === null ? limit : Math.min(anchorBottom + gap, limit);
-        const amplitude = compact ? AMPLITUDE_COMPACT : AMPLITUDE;
+        const air = compact ? AIR_COMPACT : AIR;
+        const maxAmplitude = compact ? AMPLITUDE_COMPACT : AMPLITUDE;
+
+        let baseY = height - clearance;
+        let amplitude = maxAmplitude;
+
+        if (anchorBottom !== null) {
+            const room = baseY - (anchorBottom + air);
+
+            if (room < Math.abs(maxAmplitude)) {
+                if (room >= MIN_AMPLITUDE) {
+                    amplitude = -room;
+                } else {
+                    // Too little space under the buttons: lift the wave a bit
+                    // instead of letting it collapse to a flat line.
+                    baseY = Math.min(anchorBottom + air + MIN_AMPLITUDE, height - 8);
+                    amplitude = -MIN_AMPLITUDE;
+                }
+            }
+        }
+
         const period = width / PULSES;
 
         // Trapezoidal pulse with rounded corners: sloped edges, flat top,
