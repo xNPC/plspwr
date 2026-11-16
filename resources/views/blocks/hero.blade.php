@@ -9,7 +9,7 @@
     $badge = $content['badge'] ?? __('NPP Impulse Technologies');
 @endphp
 
-<section id="hero" class="relative min-h-screen flex flex-col overflow-hidden">
+<section id="hero" class="relative min-h-[var(--hero-min-height)] flex flex-col overflow-hidden">
     {{-- Animated SVG impulse background --}}
     <div class="absolute inset-0 z-0 overflow-hidden">
         @include('partials.hero-fon')
@@ -59,7 +59,10 @@
             </p>
         @endif
 
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4" data-reveal>
+        {{-- data-pulse-anchor: the waveform in resources/js/pulse.js is drawn a
+             fixed distance below this row, so the CTA ↔ pulse spacing no longer
+             depends on the browser viewport height. --}}
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4" data-reveal data-pulse-anchor>
             @if ($primaryLabel)
                 <a href="{{ locale_path($primaryUrl) }}" class="group inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-accent-500 to-glow-500 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-accent-500/25 hover:shadow-accent-500/40 hover:brightness-110 transition-all">
                     {{ $primaryLabel }}

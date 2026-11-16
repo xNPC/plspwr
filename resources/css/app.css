@@ -48,8 +48,25 @@
 }
 
 @layer base {
+    :root {
+        /* Fixed header height, shared by the header itself and the top offset
+           of <main>, so the banner can never slide under the menu. */
+        --header-height: 4.5rem;
+
+        /* Hero fills the first screen below the header. svh keeps the value
+           stable when a browser hides/shows its own UI (Chrome vs Yandex). */
+        --hero-min-height: calc(100vh - var(--header-height));
+    }
+
+    @supports (height: 100svh) {
+        :root {
+            --hero-min-height: calc(100svh - var(--header-height));
+        }
+    }
+
     html {
         scroll-behavior: smooth;
+        scroll-padding-top: var(--header-height);
     }
 
     body {

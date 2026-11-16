@@ -12,7 +12,7 @@
 
 <header class="fixed top-0 inset-x-0 z-40 border-b border-white/5 transition-colors duration-300" id="site-header">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="flex h-18 items-center justify-between gap-6">
+        <div class="flex h-[var(--header-height)] items-center justify-between gap-6">
             {{-- Logo --}}
             <a href="{{ localized_route('home') }}" id="header-logo"
                class="flex items-center gap-3 group shrink-0 transition-opacity duration-500 motion-reduce:transition-none {{ $hideMenuLogo ? 'opacity-0 invisible' : 'opacity-100' }}">

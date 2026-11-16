@@ -28,7 +28,7 @@
 
     @include('layouts.partials.header', ['menuItems' => $topMenuItems])
 
-    <main class="relative pt-18">
+    <main class="relative pt-[var(--header-height)]">
         {{ $slot }}
     </main>
 

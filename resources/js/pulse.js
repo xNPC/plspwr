@@ -21,11 +21,26 @@ export function initPulse() {
     if (!ctx) return;
 
     const hero = document.getElementById('hero');
+    // The waveform is tied to the CTA row instead of the viewport bottom: a
+    // browser with its own chrome (Yandex vs Chrome) gives a different viewport
+    // height, which used to change the gap between the buttons and the pulse.
+    const anchor = document.querySelector('[data-pulse-anchor]');
+    let anchorBottom = null;
+
     let raf = 0;
     let offset = 0;
     let width = 0;
     let height = 0;
     let dpr = 1;
+
+    const measureAnchor = () => {
+        if (!anchor) return;
+
+        const rect = anchor.getBoundingClientRect();
+        if (!rect.height && !rect.width) return;
+
+        anchorBottom = rect.bottom - canvas.getBoundingClientRect().top;
+    };
 
     const resize = () => {
         dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -34,6 +49,7 @@ export function initPulse() {
         canvas.width = Math.round(width * dpr);
         canvas.height = Math.round(height * dpr);
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        measureAnchor();
     };
 
     const draw = () => {
@@ -41,11 +57,14 @@ export function initPulse() {
 
         if (width <= 0) return;
 
-        // Keep the baseline above the "Scroll" hint. On compact screens the
-        // CTA buttons sit close to the bottom, so the pulse is shorter there.
+        // The baseline sits a fixed gap below the CTA row, so the pulse keeps the
+        // same distance to the buttons in every browser. It is clamped above the
+        // "Scroll" hint; on compact screens the pulse is shorter.
         const compact = width < COMPACT_WIDTH;
-        const fold = Math.min(height, window.innerHeight || height);
-        const baseY = fold - (compact ? BASELINE_COMPACT : BASELINE);
+        const clearance = compact ? BASELINE_COMPACT : BASELINE;
+        const limit = height - clearance;
+        const gap = compact ? 8 : 12;
+        const baseY = anchorBottom === null ? limit : Math.min(anchorBottom + gap, limit);
         const amplitude = compact ? AMPLITUDE_COMPACT : AMPLITUDE;
         const period = width / PULSES;
 
@@ -135,14 +154,28 @@ export function initPulse() {
 
     resize();
 
+    // Web fonts and the hero logo finish loading after the first paint and can
+    // change the content height, so re-measure and repaint once they are in.
+    const refresh = () => {
+        resize();
+        if (!raf) draw();
+    };
+
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(refresh);
+    }
+    window.addEventListener('load', refresh);
+
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         draw();
-        window.addEventListener('resize', () => { resize(); draw(); });
+        window.addEventListener('resize', refresh);
         return;
     }
 
     if ('ResizeObserver' in window) {
-        new ResizeObserver(() => resize()).observe(canvas);
+        const observer = new ResizeObserver(() => resize());
+        observer.observe(canvas);
+        if (anchor) observer.observe(anchor);
     } else {
         window.addEventListener('resize', resize);
     }

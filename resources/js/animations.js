@@ -50,7 +50,10 @@ function initReveal() {
                 ease: 'power2.out',
                 scrollTrigger: {
                     trigger: el,
-                    start: 'top 88%',
+                    // Reveal as soon as the element enters the viewport. The old
+                    // "top 88%" threshold left above-the-fold hero CTAs hidden
+                    // on shorter screens (viewport-height dependent).
+                    start: 'top bottom',
                     toggleActions: 'play none none reverse',
                 },
             }
